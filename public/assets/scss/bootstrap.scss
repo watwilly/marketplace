@@ -1,0 +1,113 @@
+/*!
+ * Bootstrap v5.0.0-beta1 - NewAge Custom Edition
+*/
+
+@font-face {
+    font-family: Quicksand;
+    src: url("fonts/Quicksand.ttf");
+}
+
+$cubic-bezier-layers: (
+    1: cubic-bezier(0.36, 0.19, 0, 1.08),
+    2: cubic-bezier(0.79, 0.2, 0.21, 1),
+    3: cubic-bezier(0.79, 0.2, 0.58, 0.63),
+);
+
+$enable-shadows: true;
+
+$text-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);
+
+$font-family-base: "Roboto", sans-serif;
+$headings-font-family: "Quicksand", sans-serif;
+$headings-font-weight: 600;
+$link-decoration: none;
+
+$input-bg: transparent;
+$input-border-radius: 0;
+$form-select-border-radius: 0;
+
+$nav-link-padding-y: .25rem;
+$nav-link-padding-x: .5rem;
+
+$btn-font-weight: 600;
+$btn-line-height: 2rem;
+$input-btn-padding-y: 0.5rem;
+$input-btn-padding-x: 1rem;
+
+$toast-header-background-color: rgba(black, .3);
+$toast-header-color: white;
+
+$primary: #ffc107;
+$secondary: #3b3a38;
+
+// Create your own map
+$custom-colors: (
+    "blue": #3b5998,
+    "violet": #c13584,
+    "green": #25d366,
+    "red": #dd4b39,
+    "lightblue": #1da1f2,
+    "white": #fff,
+    "gray": #cbd3da,
+    "black": #000,
+);
+
+$border-color: $secondary;
+
+$stretched-link-z-index: 10;
+
+// scss-docs-start import-stack
+// Configuration
+@import "functions";
+@import "variables";
+
+$breadcrumb-active-color: theme-color("light");
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+@import "mixins";
+@import "utilities";
+
+// Layout & components
+@import "root";
+@import "reboot";
+@import "type";
+@import "images";
+@import "containers";
+@import "grid";
+@import "tables";
+@import "forms";
+@import "buttons";
+@import "transitions";
+@import "dropdown";
+@import "button-group";
+@import "nav";
+@import "navbar";
+@import "card";
+@import "accordion";
+@import "breadcrumb";
+@import "pagination";
+@import "badge";
+@import "alert";
+@import "progress";
+@import "list-group";
+@import "close";
+@import "toasts";
+@import "modal";
+@import "tooltip";
+@import "popover";
+@import "carousel";
+@import "spinners";
+
+// Helpers
+@import "helpers";
+
+// Utilities
+@import "utilities/api";
+// scss-docs-end import-stack
+
+/*******************************************/
+/*   --- Custom Framework Components ---   */
+/*******************************************/
+
+@import "assets"; //Custom modules

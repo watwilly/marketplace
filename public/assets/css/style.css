@@ -1,0 +1,43 @@
+.loader{position:fixed;top:0;left:0;bottom:0;right:0;background:rgba(255,255,255,.4);z-index:999}.loader .loading{width:100%;height:100%;display:flex;justify-content:center;align-items:center}.loader .loading .fa{color:#0070c2}.toastr{position:fixed;z-index:900;top:103px;right:0;box-shadow:0 0 9px 4px #cbd3da}.invalid-feedback{display:block!important}.welcome i{font-size:37px}.welcome h2{font-size:18px}.payment i{font-size:71px}.payment>.success{color:#198754}.payment>.pending{color:#009ab9}.payment>.cancelled{color:red}.status-pending{color:#0dcaf0}.status-approved{color:#198754}.status-refunded{color:#dc3545}.status-rejected{color:#dc3545}.status-in_process{color:#ffc107}
+.header .nav-link::after {
+    background-color: #e10102;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #0158fe;
+    border-color: #ffffff;
+}
+.text-primary {
+    color: #e10203 !important;
+}
+.slick-dots li.slick-active button {
+    background-color: #e10102;
+}
+.btn-outline-primary {
+    color: #e10102;
+    border-color: #ffffff;
+}
+.btn-primary:hover {
+    color: #fff;
+    background-color: #e10102;
+    border-color: #a9c7fe;
+}
+
+.btn-outline-primary:hover {
+    color: #f8f9fa;
+    background-color: #e10102;
+    border-color: #ffffff;
+}
+.breadcrumb-item a{
+	color: white;
+}
+.top-leyends {
+    background: #31708f;
+    padding: 9px;
+    margin-bottom: 10px;
+}
+.top-leyends h1 {
+    color: #fff;
+    margin: 0;
+        font-size: 1.5rem;
+}

@@ -1,0 +1,91 @@
+// MACROS
+$MODULE_NAME: "header";
+$MODULE_SUB_1: "dropdown";
+
+//---------------------------------------------------------------------------//
+// TEMPLATES
+
+//---------------------------------------------------------------------------//
+// STYLING
+.#{$MODULE_NAME} {
+
+    @include element("brand") {
+        max-width: 60%;
+        margin: 0;
+
+        @include media-breakpoint-up("md") {
+            max-width: 40%;
+        }
+        @include media-breakpoint-up("lg") {
+            max-width: 20%;
+        }
+    }
+
+    .nav-link {
+        position: relative;
+
+        &.active {
+            &::after {
+                width: 100%;
+            }
+        }
+
+        &::after {
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: theme-color("primary");
+            transition: $transition-base;
+            content: "";
+        }
+        &:hover {
+            &::after {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.#{$MODULE_SUB_1} {
+
+    position: relative;
+
+    @include element("wrapper"){
+        
+    }
+
+    @include element("content"){
+        display: none;
+        padding: 1rem;
+        position: absolute;
+        top: 100%;
+        width: $modal-sm;
+        z-index: 1;
+        border: $border-width solid darken(theme-color("light"), 15%);
+        background-color: theme-color("light");
+        box-shadow: $box-shadow;
+        transition: $transition-base;
+        
+        @include modifier("full") {
+            left: calc(calc(300px - 100%)* -0.5);
+        }
+        @include modifier("left") {
+            right: 0;
+        }
+        @include modifier("right") {
+            left: 0;
+        }
+    }
+
+
+    &:hover {
+        .#{$MODULE_SUB_1} {
+            @include element("content"){
+                display: block;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,112 @@
+@charset "UTF-8";
+
+// Default Variables
+
+// Slick icon entity codes outputs the following
+// "\2190" outputs ascii character "←"
+// "\2192" outputs ascii character "→"
+// "\2022" outputs ascii character "•"
+
+$slick-font-path: "./fonts/" !default;
+$slick-font-family: "slick" !default;
+$slick-loader-path: "./" !default;
+$slick-arrow-color: white !default;
+$slick-dot-color: black !default;
+$slick-dot-color-active: $slick-dot-color !default;
+$slick-prev-character: "\2190" !default;
+$slick-next-character: "\2192" !default;
+$slick-dot-character: "\2022" !default;
+$slick-dot-size: 6px !default;
+$slick-opacity-default: 0.75 !default;
+$slick-opacity-on-hover: 1 !default;
+$slick-opacity-not-active: 0.25 !default;
+
+@function slick-image-url($url) {
+    @if function-exists(image-url) {
+        @return image-url($url);
+    } @else {
+        @return url($slick-loader-path + $url);
+    }
+}
+
+@function slick-font-url($url) {
+    @if function-exists(font-url) {
+        @return font-url($url);
+    } @else {
+        @return url($slick-font-path + $url);
+    }
+}
+
+/* Slider */
+
+.slick-list {
+    .slick-loading & {
+        background: #fff slick-image-url("ajax-loader.gif") center center
+            no-repeat;
+    }
+}
+
+/* Icons */
+@if $slick-font-family == "slick" {
+    @font-face {
+        font-family: "slick";
+        src: slick-font-url("slick.eot");
+        src: slick-font-url("slick.eot?#iefix") format("embedded-opentype"),
+            slick-font-url("slick.woff") format("woff"),
+            slick-font-url("slick.ttf") format("truetype"),
+            slick-font-url("slick.svg#slick") format("svg");
+        font-weight: normal;
+        font-style: normal;
+    }
+}
+
+.slick-dots {
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    list-style-type: none;
+    li {
+        display: block;
+        margin: 0 5px;
+        padding: 0;
+        cursor: pointer;
+        button {
+            transition: $transition-base;
+            border: 0;
+            border-radius: 1rem;
+            background: theme-color("secondary");
+            display: block;
+            height: 5px;
+            width: 5px;
+            outline: none;
+            opacity: $slick-opacity-default;
+            color: transparent;
+            cursor: pointer;
+
+            @include media-breakpoint-up("lg") {
+                height: 10px;
+                width: 10px;
+            }
+
+            &:hover,
+            &:focus {
+                outline: none;
+                opacity: $slick-opacity-on-hover;
+            }
+        }
+        &.slick-active button {
+            width: 30px;
+            background-color: theme-color("primary");
+        }
+    }
+
+    @include media-breakpoint-up("lg") {
+        bottom: 20px;
+    }
+}

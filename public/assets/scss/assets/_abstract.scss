@@ -1,0 +1,58 @@
+//---------------------------------------------------------------------------//
+//FUNCTIONS
+@function animation-curves($index) {
+	@return map-get($map: $cubic-bezier-layers, $key: $index);
+}
+
+
+//---------------------------------------------------------------------------//
+// MIXINS
+
+// BEM 
+@mixin block($name) {
+	@at-root .#{$name} {
+		@content;
+	}
+}
+
+@mixin element($name) {
+	@at-root #{&}__#{$name} {
+		@content;
+	}
+}
+
+@mixin modifier($name) {
+	@at-root #{&}--#{$name} {
+		@content;
+	}
+}
+
+@mixin bs-element($name) {
+	@at-root #{&}-#{$name} {
+		@content;
+	}
+}
+
+@mixin bs-modifier($name) {
+	@at-root &.#{$name} {
+		@content;
+	}
+}
+
+@mixin hover {
+	@at-root &:hover {
+		@content;
+	}
+}
+
+@mixin before {
+	@at-root &::before {
+		@content;
+	}
+}
+
+@mixin after {
+	@at-root &::after {
+		@content;
+	}
+}

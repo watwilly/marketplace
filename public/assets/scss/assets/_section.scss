@@ -1,0 +1,371 @@
+// MACROS
+$MODULE_NAME: "section";
+$MODULE_SUB_1: "banner";
+
+//---------------------------------------------------------------------------//
+// TEMPLATES
+%link-hover-animation {
+    content: " ";
+    height: 2px;
+    position: absolute;
+    background-color: lighten(theme-color("dark"), 40%);
+    transition: inherit;
+}
+
+%link-hover-animation-no-color {
+    content: " ";
+    height: 2px;
+    position: absolute;
+    transition: inherit;
+}
+
+//---------------------------------------------------------------------------//
+// STYLING
+.#{$MODULE_NAME} {
+    position: relative;
+    margin-bottom: 3rem;
+
+    @include element("title") {
+        font-family: $headings-font-family;
+        font-weight: $display-font-weight;
+        line-height: $display-line-height;
+        letter-spacing: 3px;
+
+        @each $display, $font-size in $display-font-sizes {
+            @include modifier($display) {
+                font-size: $font-size;
+            }
+        }
+
+        @include modifier("narrow") {
+            letter-spacing: normal;
+        }
+    }
+
+    @include element("lead") {
+        font-family: $font-family-base;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        line-height: 2;
+        margin: 0;
+
+        @each $display, $font-size in $font-sizes {
+            @include modifier($display) {
+                font-size: $font-size;
+            }
+        }
+
+        @include media-breakpoint-down("md") {
+            @include modifier("responsive") {
+                font-size: 80%;
+            }
+        }
+    }
+
+    @include element("link") {
+        display: inline-block;
+        margin: 10px 5px;
+        position: relative;
+        text-decoration: $link-decoration;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        cursor: pointer;
+        transition: $transition-base;
+
+        &::after {
+            @extend %link-hover-animation-no-color;
+            bottom: -5px;
+            right: 100%;
+            left: 0;
+        }
+
+        &:hover {
+            text-decoration: $link-hover-decoration;
+
+            &::after {
+                right: 0;
+            }
+        }
+
+        @each $color, $value in $theme-colors {
+            @include modifier($color) {
+                color: $value;
+
+                &:hover {
+                    color: shift-color($value, $link-shade-percentage);
+                }
+                &::after {
+                    background-color: $value;
+                }
+            }
+        }
+    }
+}
+
+@include block("banner") {
+    width: 100%;
+    position: relative;
+
+    //Utilizar aquí el overflow hidden y no usar max-height
+    @include element("background") {
+        height: 350px;
+        width: 100%;
+        overflow: hidden;
+        object-fit: cover;
+
+        filter: grayscale(53%) brightness(74%) saturate(231%) contrast(152%);
+        -webkit-filter: grayscale(53%) brightness(74%) saturate(231%)
+            contrast(152%);
+        -moz-filter: grayscale(53%) brightness(74%) saturate(231%)
+            contrast(152%);
+
+        @include media-breakpoint-up("lg") {
+            height: 260px;
+        }
+    }
+
+    @include element("foreground") {
+        position: absolute;
+        z-index: 1000;
+        top: 20%;
+        left: 0;
+        width: 100%;
+        padding: 1rem;
+
+        @include media-breakpoint-up("md") {
+            top: 0;
+            padding: 2rem;
+            padding-top: 4rem;
+        }
+
+        @include media-breakpoint-up("lg") {
+            @include modifier("curtain") {
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: auto;
+                width: 65%;
+
+                background: rgb(0, 0, 0);
+                background: -moz-linear-gradient(
+                    90deg,
+                    rgba(0, 0, 0, 0) 0%,
+                    rgba(59, 58, 56, 0.22452731092436973) 23%,
+                    rgba(59, 58, 56, 0.8715861344537815) 81%,
+                    rgba(59, 58, 56, 1) 100%
+                );
+                background: -webkit-linear-gradient(
+                    90deg,
+                    rgba(0, 0, 0, 0) 0%,
+                    rgba(59, 58, 56, 0.22452731092436973) 23%,
+                    rgba(59, 58, 56, 0.8715861344537815) 81%,
+                    rgba(59, 58, 56, 1) 100%
+                );
+                background: linear-gradient(
+                    90deg,
+                    rgba(0, 0, 0, 0) 0%,
+                    rgba(59, 58, 56, 0.22452731092436973) 23%,
+                    rgba(59, 58, 56, 0.8715861344537815) 81%,
+                    rgba(59, 58, 56, 1) 100%
+                );
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#3b3a38",GradientType=1);
+            }
+        }
+    }
+
+    @include element("title") {
+        text-shadow: 3px 3px 5px rgba($color: #000000, $alpha: 0.7);
+
+        @each $color, $value in $theme-colors {
+            @include modifier("#{$color}") {
+                color: $value;
+            }
+        }
+    }
+
+    @include element("brand") {
+        position: absolute;
+        z-index: 1010;
+        bottom: 15px;
+        left: calc(50% - 75px);
+
+        width: 150px;
+        height: 150px;
+
+        box-shadow: 0px 5px 10px 0px
+            rgba($color: theme-color("dark"), $alpha: 0.8);
+
+        @include media-breakpoint-up("lg") {
+            bottom: -30px;
+            left: calc(calc(33.33333% * 0.5) - 100px);
+            width: 200px;
+            height: 200px;
+        }
+
+        @include media-breakpoint-up("xl") {
+            left: calc(calc(25% * 0.5) - 100px);
+        }
+    }
+}
+
+.min-height {
+    min-height: 100vh;
+}
+
+.text-shadow {
+    text-shadow: 3px 3px 5px rgba($color: #000000, $alpha: 0.7) ;
+}
+
+.custom-link {
+    position: relative;
+    transition: $transition-base;
+
+    &::after {
+        @extend %link-hover-animation-no-color;
+        bottom: -5px;
+        right: 100%;
+        left: 0;
+        transition: inherit;
+    }
+
+    &:hover {
+        text-decoration: $link-hover-decoration;
+
+        &::after {
+            right: 0;
+        }
+    }
+
+    @each $color, $value in $theme-colors {
+        @at-root #{&}-#{$color} {
+            &::after {
+                background-color: $value;
+            }
+        }
+    }
+}
+
+.link-block {
+    display: block;
+    padding: .5rem 1rem;
+    transition: $transition-base;
+
+    @include hover {
+        background-color: theme-color("secondary");
+        color: theme-color("light");
+    }
+}
+
+.back-to-top {
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    z-index: $zindex-fixed;
+}
+
+@include block("img-preview") {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+
+    @include bs-element("remove") {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}
+
+@include block("product") {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto auto auto auto;
+    grid-auto-rows: auto;
+    justify-items: stretch;
+    align-items: stretch;
+    justify-content: stretch;
+    grid-gap: 1rem;
+
+    @include element("view") {
+        grid-row: 1 / span 1;
+        grid-column: 1 / span 12;
+        max-width: 100%;
+    }
+    @include element("description") {
+        grid-row: 3 / span 1;
+        grid-column: 1 / span 12;
+        max-width: 100%;
+    }
+    @include element("price") {
+        grid-row: 2 / span 1;
+        grid-column: 1 / span 12;
+        max-width: 100%;
+    }
+    @include element("questions") {
+        grid-row: 4 / span 1;
+        grid-column: 1 / span 12;
+        max-width: 100%;
+    }
+    @include element("similars") {
+        grid-row: 5 / span 1;
+        grid-column: 1 / span 12;
+        max-width: 100%;
+    }
+
+    @include media-breakpoint-up("lg") {
+        @include element("view") {
+            grid-row: 1 / span 1;
+            grid-column: 1 / span 8;
+        }
+        @include element("description") {
+            grid-row: 2 / span 1;
+            grid-column: 1 / span 8;
+        }
+        @include element("price") {
+            grid-row: 1 / span 3;
+            grid-column: 9 / span 4;
+        }
+        @include element("questions") {
+            grid-row: 3 / span 1;
+            grid-column: 1 / span 8;
+        }
+        @include element("similars") {
+            grid-row: 4 / span 1;
+            grid-column: 1 / span 12;
+        }
+    }
+}
+
+@include block("picker"){
+    @include bs-element("color") {
+        transition: $transition-base;
+        width: calc(50px - .5rem);
+        height: calc(50px - .5rem);
+        
+        &:not(:last-of-type) {
+            margin-right: .5rem;
+            margin-bottom: .5rem;
+        }
+    }
+
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.img-cover {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}

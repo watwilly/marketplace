@@ -1,0 +1,27 @@
+// MACROS
+$MODULE_NAME: "filter";
+//$MODULE_SUB_1: "main";
+
+//---------------------------------------------------------------------------//
+// TEMPLATES
+
+//---------------------------------------------------------------------------//
+// STYLING
+.#{$MODULE_NAME} {
+    height: 100%;
+    background-color: theme-color("secondary");
+
+    @include element("applied") {
+        display: inline-block;
+        padding: .5rem;
+        margin: .5rem .5rem 0 0;
+        background-color: theme-color("light");
+        color: theme-color("dark");
+        transition: $transition-base;
+
+        &:hover {
+            background-color: theme-color("primary");
+            color: theme-color("dark");
+        }
+    }
+}

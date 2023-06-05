@@ -1,0 +1,407 @@
+// MACROS
+$MODULE_NAME: "grid";
+//$MODULE_SUB_1: "main";
+
+$PROP_COLUMNS: "col";
+$PROP_COLUMNS_VALUE: 12;
+$PROP_ROWS: "row";
+$PROP_ROWS_VALUE: 12;
+$PROP_GAPS: "gap";
+$PROP_GAPS_VALUE: 6;
+$PROP_GAPS_VALUE_MAX: 2rem;
+
+$PROP_GRID_ALIGNMENTS: (
+    justify-content: (
+        start,
+        center,
+        end,
+        stretch,
+        space-around,
+        space-between,
+        space-evenly,
+    ),
+    justify-items: (
+        start,
+        center,
+        end,
+        stretch,
+    ),
+    align-content: (
+        start,
+        center,
+        end,
+        stretch,
+        space-around,
+        space-between,
+        space-evenly,
+    ),
+    align-items: (
+        start,
+        center,
+        end,
+        stretch,
+    ),
+);
+$PROP_ITEM_ALIGNMENTS: (
+    justify-self: (
+        start,
+        center,
+        end,
+        stretch,
+    ),
+    align-self: (
+        start,
+        center,
+        end,
+        stretch,
+    ),
+);
+
+//---------------------------------------------------------------------------//
+// TEMPLATES
+//
+
+//---------------------------------------------------------------------------//
+// MIXINS
+@mixin alignment-class($prop-name, $value, $media-query: null) {
+    $class_name: "";
+
+    $value-class: $value;
+    @if str-index($value, "space-") == 1 {
+        $value-class: str-slice($value, 7);
+    }
+
+    @if $media-query == null {
+        $class_name: "#{$prop-name}-#{$value-class}";
+    } @else {
+        $class_name: "#{$prop-name}-#{$media-query}-#{$value-class}";
+    }
+
+    @include bs-modifier($class_name) {
+        #{$prop-name}: $value;
+    }
+}
+@mixin gap-class($gap, $media-query: null) {
+    $class_name: "";
+    $class_name_x: "";
+    $class_name_y: "";
+
+    @if $media-query == null {
+        $class_name: "g-#{$gap}";
+        $class_name_x: "gx-#{$gap}";
+        $class_name_y: "gy-#{$gap}";
+    } @else {
+        $class_name: "g-#{$media-query}-#{$gap}";
+        $class_name_x: "gx-#{$media-query}-#{$gap}";
+        $class_name_y: "gy-#{$media-query}-#{$gap}";
+    }
+
+    $gap-final: $gap * ($PROP_GAPS_VALUE_MAX / $PROP_GAPS_VALUE);
+    @include bs-modifier($class_name) {
+        gap: $gap-final;
+    }
+    @include bs-modifier($class_name_x) {
+        column-gap: $gap-final;
+    }
+    @include bs-modifier($class_name_y) {
+        row-gap: $gap-final;
+    }
+}
+
+@mixin item-place-class($row, $col, $media-query: null) {
+    $class_name: "";
+    @if $media-query == null {
+        $class_name: "p-#{$row}-#{$col}";
+    } @else {
+        $class_name: "p-#{$media-query}-#{$row}-#{$col}";
+    }
+
+    @include bs-modifier($class_name) {
+        grid-row-start: $row;
+        grid-column-start: $col;
+    }
+}
+
+@mixin item-area-class($row, $col, $media-query: null) {
+    $class_name: "";
+    @if $media-query == null {
+        $class_name: "a-#{$row}x#{$col}";
+    } @else {
+        $class_name: "a-#{$media-query}-#{$row}x#{$col}";
+    }
+
+    @include bs-modifier($class_name) {
+        grid-row-end: span $row;
+        grid-column-end: span $col;
+    }
+}
+
+@mixin item-row-class($row, $media-query: null) {
+    $class_name: "";
+    @if $media-query == null {
+        $class_name: "r-#{$row}";
+    } @else {
+        $class_name: "r-#{$media-query}-#{$row}";
+    }
+
+    @include bs-modifier($class_name) {
+        grid-row-end: span $row;
+    }
+}
+
+@mixin item-col-class($col, $media-query: null) {
+    $class_name: "";
+    @if $media-query == null {
+        $class_name: "c-#{$col}";
+    } @else {
+        $class_name: "c-#{$media-query}-#{$col}";
+    }
+
+    @include bs-modifier($class_name) {
+        grid-column-end: span $col;
+    }
+}
+
+//---------------------------------------------------------------------------//
+// STYLING
+@include block($MODULE_NAME) {
+    $cols-max-width: 100% / $PROP_COLUMNS_VALUE;
+    display: grid;
+    grid-template-rows: repeat(
+        $PROP_COLUMNS_VALUE,
+        minmax(auto, $cols-max-width)
+    );
+    grid-template-columns: repeat(
+        $PROP_COLUMNS_VALUE,
+        minmax(auto, $cols-max-width)
+    );
+    grid-auto-rows: min-content;
+    grid-auto-columns: min-content;
+    gap: 0.5rem;
+    transition: $transition-base;
+
+    //Custom Column and Rows
+    @each $query, $value in $grid-breakpoints {
+        @if $query == "xs" {
+            @for $row from 1 through $PROP_ROWS_VALUE {
+                $col-max-width: 100% / $row;
+                @include bs-modifier("rows-#{$row}") {
+                    grid-template-rows: repeat(
+                        $row,
+                        minmax(auto, $col-max-width)
+                    ) !important;
+                }
+                @include bs-modifier("cols-#{$row}") {
+                    grid-template-columns: repeat(
+                        $row,
+                        minmax(auto, $col-max-width)
+                    ) !important;
+                }
+            }
+        } @else {
+            @include media-breakpoint-up($query) {
+                @for $row from 1 through $PROP_ROWS_VALUE {
+                    $col-max-width: 100% / $row;
+                    @include bs-modifier("rows-#{$query}-#{$row}") {
+                        grid-template-rows: repeat(
+                            $row,
+                            minmax(auto, $col-max-width)
+                        ) !important;
+                    }
+                    @include bs-modifier("cols-#{$query}-#{$row}") {
+                        grid-template-columns: repeat(
+                            $row,
+                            minmax(auto, $col-max-width)
+                        ) !important;
+                    }
+                }
+            }
+        }
+    }
+
+    //Equal cells sizes
+    @include bs-modifier("equal-cells") {
+        grid-template-rows: repeat($PROP_COLUMNS_VALUE, 1fr) !important;
+        grid-template-columns: repeat($PROP_COLUMNS_VALUE, 1fr) !important;
+        grid-auto-rows: max-content !important;
+        grid-auto-columns: max-content !important;
+
+        //Custom Column and Rows
+        @each $query, $value in $grid-breakpoints {
+            @if $query == "xs" {
+                @for $row from 1 through $PROP_ROWS_VALUE {
+                    @include bs-modifier("rows-#{$row}") {
+                        grid-template-rows: repeat($row, 1fr) !important;
+                    }
+                    @include bs-modifier("cols-#{$row}") {
+                        grid-template-columns: repeat($row, 1fr) !important;
+                    }
+                }
+            } @else {
+                @include media-breakpoint-up($query) {
+                    @for $row from 1 through $PROP_ROWS_VALUE {
+                        @include bs-modifier("rows-#{$query}-#{$row}") {
+                            grid-template-rows: repeat($row, 1fr) !important;
+                        }
+                        @include bs-modifier("cols-#{$query}-#{$row}") {
+                            grid-template-columns: repeat($row, 1fr) !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //Equal rows height
+    @include bs-modifier("equal-rows") {
+        grid-template-rows: repeat($PROP_COLUMNS_VALUE, 1fr) !important;
+        grid-auto-rows: max-content !important;
+
+        //Custom Column and Rows
+        @each $query, $value in $grid-breakpoints {
+            @if $query == "xs" {
+                @for $row from 1 through $PROP_ROWS_VALUE {
+                    @include bs-modifier("rows-#{$row}") {
+                        grid-template-rows: repeat($row, 1fr) !important;
+                    }
+                }
+            } @else {
+                @include media-breakpoint-up($query) {
+                    @for $row from 1 through $PROP_ROWS_VALUE {
+                        @include bs-modifier("rows-#{$query}-#{$row}") {
+                            grid-template-rows: repeat($row, 1fr) !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //Equal rows height
+    @include bs-modifier("equal-columns") {
+        grid-template-columns: repeat($PROP_COLUMNS_VALUE, 1fr) !important;
+        grid-auto-columns: max-content !important;
+
+        //Custom Column and Rows
+        @each $query, $value in $grid-breakpoints {
+            @if $query == "xs" {
+                @for $row from 1 through $PROP_ROWS_VALUE {
+                    @include bs-modifier("cols-#{$row}") {
+                        grid-template-columns: repeat($row, 1fr) !important;
+                    }
+                }
+            } @else {
+                @include media-breakpoint-up($query) {
+                    @for $row from 1 through $PROP_ROWS_VALUE {
+                        @include bs-modifier("cols-#{$query}-#{$row}") {
+                            grid-template-columns: repeat($row, 1fr) !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //Content alignment
+    @each $query, $value in $grid-breakpoints {
+        @if $query == "xs" {
+            @each $prop, $values in $PROP_GRID_ALIGNMENTS {
+                @each $value in $values {
+                    @include alignment-class($prop, $value);
+                }
+            }
+        } @else {
+            @include media-breakpoint-up($query) {
+                @each $prop, $values in $PROP_GRID_ALIGNMENTS {
+                    @each $value in $values {
+                        @include alignment-class($prop, $value, $query);
+                    }
+                }
+            }
+        }
+    }
+    //Gaps sizes
+    @each $query, $value in $grid-breakpoints {
+        @if $query == "xs" {
+            @for $gap from 0 through $PROP_GAPS_VALUE {
+                @include gap-class($gap);
+            }
+        } @else {
+            @include media-breakpoint-up($query) {
+                @for $gap from 0 through $PROP_GAPS_VALUE {
+                    @include gap-class($gap, $query);
+                }
+            }
+        }
+    }
+
+    @include bs-element("item") {
+        //padding: 1rem;
+        grid-row-end: span 1;
+        grid-column-end: span 1;
+        position: relative;
+        transition: $transition-base;
+        max-width: 100%;
+
+        //Item alignment
+        @each $query, $value in $grid-breakpoints {
+            @if $query == "xs" {
+                @each $prop, $values in $PROP_ITEM_ALIGNMENTS {
+                    @each $value in $values {
+                        @include alignment-class($prop, $value);
+                    }
+                }
+            } @else {
+                @include media-breakpoint-up($query) {
+                    @each $prop, $values in $PROP_ITEM_ALIGNMENTS {
+                        @each $value in $values {
+                            @include alignment-class($prop, $value, $query);
+                        }
+                    }
+                }
+            }
+        }
+
+        //Item area and placement
+        @each $query, $value in $grid-breakpoints {
+            @if $query == "xs" {
+                @for $row from 1 through $PROP_ROWS_VALUE {
+                    @for $col from 1 through $PROP_COLUMNS_VALUE {
+                        @include item-area-class($row, $col);
+                        @include item-place-class($row, $col);
+                    }
+                }
+            } @else {
+                @include media-breakpoint-up($query) {
+                    @for $row from 1 through $PROP_ROWS_VALUE {
+                        @for $col from 1 through $PROP_COLUMNS_VALUE {
+                            @include item-area-class($row, $col, $query);
+                            @include item-place-class($row, $col, $query);
+                        }
+                    }
+                }
+            }
+        }
+
+        //Item cols and rows
+        @each $query, $value in $grid-breakpoints {
+            @if $query == "xs" {
+                @for $row from 1 through $PROP_ROWS_VALUE {
+                    @include item-row-class($row);
+                }
+                @for $col from 1 through $PROP_COLUMNS_VALUE {
+                    @include item-col-class($col);
+                }
+            } @else {
+                @include media-breakpoint-up($query) {
+                    @for $row from 1 through $PROP_ROWS_VALUE {
+                        @include item-row-class($row, $query);
+                    }
+                    @for $col from 1 through $PROP_COLUMNS_VALUE {
+                        @include item-col-class($col, $query);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,97 @@
+// MACROS
+$MODULE_NAME: "line";
+
+$PROP_POSITION: "position";
+$PROP_POSITION_VALUES: (
+	0: 0%,
+	1: 20%,
+	2: 40%,
+	3: 60%,
+	4: 80%,
+	5: 100%,
+);
+
+$PROP_ROTATE: "rotate";
+$PROP_ROTATE_VALUES: (0, 15, 20, 30, 45, 60, 90, 120, 135, 150, 160, 165, 180);
+
+//---------------------------------------------------------------------------//
+// STYLING
+/******* Lines and Geometrics *******/
+.#{$MODULE_NAME} {
+	& {
+		position: absolute;
+		height: 1px;
+		width: 300%;
+		border: 1px solid;
+		transform-origin: top left;
+		transition: $transition-base;
+	}
+
+	@include element(container) {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		max-width: 100%;
+		overflow: hidden;
+		z-index: -1;
+		pointer-events: none;
+	}
+
+	@each $style, $color in $theme-colors {
+		@include modifier($style) {
+			border-color: shift-color($color, $alert-bg-scale);
+		}
+	}
+
+	&.#{$PROP_POSITION} {
+		$name: null;
+		@each $key, $size in $grid-breakpoints {
+			@include media-breakpoint-up($key) {
+				@each $style-x, $position-x in $PROP_POSITION_VALUES {
+					@each $style-y, $position-y in $PROP_POSITION_VALUES {
+						@if $key == "xs" {
+							$name: "#{$style-x}x#{$style-y}";
+						} @else {
+							$name: "#{$key}-#{$style-x}x#{$style-y}";
+						}
+						@include modifier($name) {
+							left: $position-x;
+							top: $position-y;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	&.#{$PROP_ROTATE} {
+		$name: null;
+		$name-anti: null;
+		@each $key, $size in $grid-breakpoints {
+			@include media-breakpoint-up($key) {
+				@each $style in $PROP_ROTATE_VALUES {
+					@if $key == "xs" {
+						$name: "#{$style}";
+						$name-anti: "anti-#{$style}";
+					} @else {
+						$name: "#{$key}-#{$style}";
+						$name-anti: "#{$key}-anti-#{$style}";
+					}
+					
+					// Rotate Clockwise
+					@include modifier($name) {
+						transform: rotate(calc(-1deg * #{$style}));
+					}
+					@if $style != 0 {
+						// Rotate Anti-Clockwise
+						@include modifier($name-anti) {
+							transform: rotate(calc(1deg * #{$style}));
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Sitemap: https://www.ventastucuman.com/sitemapxml
+Disallow: /nota/2/condiciones-de-uso-online
+Disallow: /nota/1/politica-de-privacidad

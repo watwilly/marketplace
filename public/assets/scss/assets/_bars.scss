@@ -1,0 +1,111 @@
+// MACROS
+$MODULE_NAME: "bars";
+$GRADIENT_LINES_WIDTH: (75px, 10px, 30px, 5px);
+$GRADIENT_LINES_SPREAD: 5px;
+$GRADIENT_ROTATE_BASE: 45deg;
+$GRADIENT_ROTATE_TIMES: 8;
+$GRADIENT_ROTATE_DEG: (
+    "b": calc($GRADIENT_ROTATE_BASE * 0),
+    "bl": calc($GRADIENT_ROTATE_BASE * 1),
+    "l": calc($GRADIENT_ROTATE_BASE * 2),
+    "tl": calc($GRADIENT_ROTATE_BASE * 3),
+    "t": calc($GRADIENT_ROTATE_BASE * 4),
+    "tr": calc($GRADIENT_ROTATE_BASE * 5),
+    "r": calc($GRADIENT_ROTATE_BASE * 6),
+    "br": calc($GRADIENT_ROTATE_BASE * 7),
+);
+
+//---------------------------------------------------------------------------//
+// FUNCTIONS
+@function make-gradient($rotation: 0, $lines-width: 0, $color: 0, $spread: 0) {
+    // Rotation
+    $str-rotation: "#{$rotation}, ";
+    $gradient: str-insert("", $str-rotation, 0);
+
+    // Separate
+    //$gradient: str-insert($gradient, ", ", str-length($gradient + 1));
+
+    // Bars
+    $accumulative-width: 0;
+    @for $index from 1 through length($lines-width) {
+        $str-bar: "";
+        $str-spread: "";
+        $current-width: nth($lines-width, $index);
+        @if $index == 1 {
+            $str-bar: "#{$color} #{$current-width}, ";
+            $str-spread: "transparent #{$current-width} #{$current-width + $spread}, ";
+        } @else if $index == length($lines-width) {
+            $str-bar: "#{$color} #{$accumulative-width} #{$accumulative-width + $current-width}, ";
+            $str-spread: "transparent #{$accumulative-width + $current-width}";
+        } @else {
+            $str-bar: "#{$color} #{$accumulative-width} #{$accumulative-width + $current-width}, ";
+            $str-spread: "transparent #{$accumulative-width + $current-width} #{$accumulative-width + $current-width + $spread}, ";
+        }
+
+        $gradient: str-insert($gradient, $str-bar, str-length($gradient + 1));
+        $gradient: str-insert(
+            $gradient,
+            $str-spread,
+            str-length($gradient + 1)
+        );
+
+        $accumulative-width: $accumulative-width + $current-width + $spread;
+    }
+
+    @return unquote($gradient);
+}
+
+//---------------------------------------------------------------------------//
+// TEMPLATES
+
+//---------------------------------------------------------------------------//
+// STYLING
+@include block($MODULE_NAME) {
+	
+	@each $style, $color in $theme-colors {
+		@include bs-element($style) {
+			@for $var from 0 to $GRADIENT_ROTATE_TIMES {
+				@include bs-element($var) {
+					$deg: $GRADIENT_ROTATE_BASE * $var;
+                    transition: background .2s ease-in-out;
+                    background: linear-gradient(
+                        make-gradient(
+                            $deg,
+                            $GRADIENT_LINES_WIDTH,
+                            $color,
+                            $GRADIENT_LINES_SPREAD
+                        )
+                    );
+
+                    $sm-list: ();
+                    $bg-list: ();
+                    @each $width in $GRADIENT_LINES_WIDTH {
+                        $sm-list: append($sm-list, $width / 2 );
+                        $bg-list: append($bg-list, $width * 2 );
+                    }
+
+                    @include bs-element("sm") {
+                        background: linear-gradient(
+                            make-gradient(
+                                $deg,
+                                $sm-list,
+                                $color,
+                                $GRADIENT_LINES_SPREAD
+                            )
+                        );
+                    }
+                    @include bs-element("lg") {
+                        background: linear-gradient(
+                            make-gradient(
+                                $deg,
+                                $bg-list,
+                                $color,
+                                $GRADIENT_LINES_SPREAD
+                            )
+                        );
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,341 @@
+@extends('layouts.app')
+
+@section('meta')
+    <meta  name="title" content="{{Voyager::setting('site.title')}}" >
+    <meta  name="description" content="{{Voyager::setting('site.description')}}">
+    <meta  name="keywords" content="{{Voyager::setting('site.keywords')}}" >
+    <meta  property=og:locale content="es_ar" >
+    <meta  property=og:image content="https://www.ventastucuman.com/storage/{{Voyager::setting('site.ogimage')}}" >
+    <meta  property=og:title content="{{Voyager::setting('site.title')}}" >
+    <meta  property=og:description content="{{Voyager::setting('site.description')}}" >
+    <meta  property=og:site_name content="{{Voyager::setting('site.title')}}" >
+    <meta name="twitter:title" content="{{Voyager::setting('site.title')}}" > 
+    <meta name="twitter:image" content="https://www.ventastucuman.com/storage/{{Voyager::setting('site.ogimage')}}">
+    <meta name="twitter:description" content="{{Voyager::setting('site.description')}}" > 
+
+    <title>{{Voyager::setting('site.title')}}</title>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://www.ventastucuman.com/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.ventastucuman.com/search?data={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "url": "https://www.ventastucuman.com",
+      "name":"Ventas Tucumán",
+      "logo": "https://www.ventastucuman.com/storage/{{Voyager::setting('site.logo')}}",
+        "sameAs": [
+        "https://www.facebook.com/ventastucumana/",
+        "https://www.instagram.com/ventasentucuman/",
+        "https://www.linkedin.com/company/ventas-tucuman/"
+      ],
+       "address": {
+       "@type": "PostalAddress",
+       "streetAddress": "Amador Lucero San Miguel de Tucumán",
+       "addressRegion": "TUC",
+       "postalCode": "4000",
+       "addressCountry": "AR"
+     }
+    }
+    </script>
+
+@stop
+
+
+@section('content')
+
+@if($sliders->count() > 0)
+  <div class="col-md-12 sinpadding">
+    <div id="myCarousel" class="carousel slide bottom_10" data-ride="carousel">
+      <div class="carousel-inner">
+          @foreach($sliders as $showSlider)
+            <div class="item itemcarrouselHome" id="{{$showSlider->id}}">
+              <img src="/storage/{{$showSlider->image}}" alt="{{$showSlider->tittle}}" style="width: 100%;">
+              <div class="carousel-caption d-none d-md-block">
+                <h3 style="font-size: 18px;"><a href="/tiendas-digitales" class="apublica"><b>Tiendas Online</b></a></h3>
+              </div>
+            </div>
+          @endforeach
+      </div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
+    </div>
+  </div>
+@endif
+
+@if($sliders->count() > 0)
+  @section('jsfooter')
+    <script type="text/javascript">
+      $(function () {
+            $("#{{$showSlider->id}}").addClass('active');
+         });
+    </script>
+  @append
+@endif
+
+<section class="bg-white">
+    <div class="container nopaddinresponsive" >
+      <div class="col-md-12 col-sm-12 col-xs-12 nopaddinresponsive  ">
+        <div class="col-md-12 col-sm-12 col-xs-12  text-center" style=" margin-bottom: 15px;    background: white;border-radius: 7px;">
+          <h2 style="font-size: 24px;margin-top: 15px;">Tiendas online, vende muebles, vende autos, venta de casas  <b style="color: #ccda52;">Crea tu tienda online gratis y publica todos tus productos y servicios. Ventas Tucumán</b></h2>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6" style=" margin-bottom: 15px;">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-format="fluid"
+               data-ad-layout-key="-6t+ed+2i-1n-4w"
+               data-ad-client="ca-pub-4090153222985235"
+               data-ad-slot="8268708074"></ins>
+          <script>
+               (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6" style=" margin-bottom: 15px;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-format="fluid"
+                 data-ad-layout-key="-6t+ed+2i-1n-4w"
+                 data-ad-client="ca-pub-4090153222985235"
+                 data-ad-slot="3894456595"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        @if(!is_null($interes))
+          <div class="col-md-12 nopaddinresponsive col-sm-12 col-xs-12 row">
+          <div class="col-md-12">
+            <h2 class="textleyendcatehome">Basado en tu ultima visita.</h2>
+          </div>
+
+          <div class="col-md-12">
+            @foreach($interes  as $prod_ineteres)
+              <?php 
+                $imgpInteres =  $prod_ineteres->postimagenes()->select('imagen', 'storage')->orderBy('id', 'ASC')->take(1)->first(); 
+              ?>
+              <a class="c-black" href="/vtucuman-{{$prod_ineteres->id}}/{{str_slug($prod_ineteres->name, '-')}}/{{str_slug($prod_ineteres->title)}}">
+                <div class="col-md-8 col-sm-12 col-xs-12" style="margin-bottom:1.5rem!important; width:250px;     padding-left: 3px;padding-right: 3px;">
+                  <div class="col-item col-md-12 sinpadding efectoproducto">
+                    <div class="photo">
+                      @if($imgpInteres)
+                        <img data-src-load="{{Voyager::get_image($imgpInteres->imagen, 'small',$imgpInteres->storage)}}" class="img-responsive index-img" alt="{{$prod_ineteres->title}}" title="{{$prod_ineteres->title}}" />
+                      @endif
+                    </div>
+                      <div class="info ">
+                        <div class="row">
+                          <div class="price col-md-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12  titlehome">
+                              {{str_limit($prod_ineteres->title, 70)}}
+                            </div>
+                            <div class="col-md-12 precio">
+                              <hr>
+                              <h5 class="precioSindescuento">${{$prod_ineteres->precios}}</h5>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="clearfix">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+            @endforeach
+          </div>
+          </div>
+        @endif
+
+      <!--start store-->
+      <div class="col-md-12 col-xs-12 comercios_home" style="margin-bottom: 20px;">
+          <div class="col-md-10 col-xs-7">
+            <h2 class="textleyendcatehome ">Tiendas Online Tucumán</h2> 
+          </div>
+          <div class="col-md-2 col-xs-5 vertodos text-right" style="margin-bottom: 15px;">
+            <a href="/tiendas-digitales">Ver mas</a>
+          </div>
+          <div class="col-md-12 col-xs-12 multiple-store">
+          @foreach($tiendas as $tienda)
+              <div class="col-xs-6 col-md-2 col-sm-4" style="margin-bottom: 5px;" >
+                <a href="/tienda/{{str_slug($tienda->titulo)}}/{{$tienda->id}}" class="c-black">
+                  <div class="b-white col-md-12">
+                    <img data-src-load="{{Voyager::get_image($tienda->logo_empresa, 'cropped','storage')}}" alt="{{$tienda->titulo}}" title="{{$tienda->titulo}}" class="index-img img-responsive">
+                  </div>     
+                  <div class="b-white col-md-12 titstore">
+                    <h4>{{$tienda->titulo}}</h4>
+                  </div>         
+                </a>
+              </div>
+          @endforeach
+          </div>
+      </div>
+      <!--End store-->
+
+      <!--Start Colecciones de hoy-->
+      <div class="col-md-12 col-sm-12 col-xs-12 sinpadding ">
+        <?php $n1 = 1;?>
+        @foreach ($categorias as $categoria)
+
+          <div class="col-md-12  col-sm-12 col-xs-12 bottom_10 ">
+            <div class="col-md-10 col-sm-8 col-xs-7 " >
+              <a href="/categoria/{{$categoria->id}}/{{str_slug($categoria->name, '-')}}">
+                <h2 class="c-black textleyendcatehome">{{$categoria->name}}</h2>
+              </a>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-5 vertodos text-right" style="margin-bottom: 15px;">
+              <a href="/categoria/{{$categoria->id}}/{{str_slug($categoria->name, '-')}}">Ver mas</a>
+            </div>
+            @if(!is_null($categoria->parent_id))
+              <?php $pro = $categoria->postpersubCategory();?>
+            @else
+              <?php $pro = $categoria->posts(); ?>
+            @endif
+
+            <?php 
+              $pro->select('posts.id','title', 'body', 'marca_id', 'precios', 'posts.created_at', 'pv.cant_visita');
+              $pro->where('status', 'PUBLISHED');
+              $pro->leftjoin('posts_visitas as pv', 'posts.id','=','pv.posts_id');
+              $pro = $pro->inRandomOrder()->take(4)->get(); 
+            ?>
+              @foreach($pro as $productos)
+                <?php
+                    $imagenes =  $productos->postimagenes()->select('imagen', 'storage')->orderBy('id', 'ASC')->take(1)->first();
+                    $trademark = $productos->marca()->select('name')->first();                          
+                ?>
+                  <div class="col-md-3 bottom_10 col-sm-6 col-xs-12">
+                    <a class="c-black" href="/vtucuman-{{$productos->id}}/{{str_slug($categoria->name,'-')}}/{{str_slug($productos->title)}}">
+                      <div class="col-item sinpadding col-md-12 col-xs-12 efectoproducto">
+                        @if($imagenes)
+                          <div class="photo sinpadding col-md-12 col-sm-12 col-xs-3 height_239px">
+                              <img data-src-load="{{Voyager::get_image($imagenes->imagen, 'medium', $imagenes->storage)}}" class="index-img img-responsive max-height-100 " title="{{$productos->title}}" alt="{{$productos->title}}" />
+                          </div>
+                        @endif
+                        <div class="sinpadding col-md-12 col-sm-12 col-xs-9">
+                          <div class=" col-md-12">
+                            <div class="col-md-12 titlehome">
+                              <h3 class="visible-md visible-sm visible-lg">{{str_limit($productos->title, 40)}} </h3>
+                              <p class="visible-xs">{{str_limit($productos->title, 35)}} </p>
+                              @if(!is_null($trademark))
+                                <p style="text-transform: uppercase; color: #ff6a00;">{{$trademark->name}}</p>
+                              @endif
+                            </div>
+                             <div class="col-md-12 col-xs-12">
+                                <span class="precioSindescuento">ARS ${{$productos->precios}}</span>
+                             </div>
+                               <div class="col-md-12 col-xs-6 visible-lg visible-md  ">
+                                <small  style="color: #cccccc;" class="float-right">+{{$productos->cant_visita}} visitaron esto</small>
+                               </div>
+                          </div>
+                          <div class="clearfix">
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+              @endforeach
+          </div>
+          @if($n1 == 2)
+            <div class="col-md-12  col-sm-12 col-xs-12">
+              <!-- ventas Tucuman - home 1 -->
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-client="ca-pub-4090153222985235"
+                   data-ad-slot="4368512583"
+                   data-ad-format="auto"
+                   data-full-width-responsive="true"></ins>
+              <script>
+                   (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+            </div>
+          @endif
+          <?php $n1++; ?>
+        @endforeach
+      </div>
+      <!--Stop cosas que te pueden interesar-->
+      
+      <!--Start Recomendaciones destacadas -->
+      <div class="col-md-12 col-sm-12 col-xs-12 ">
+        <div class="col-md-12 col-sm-12 sinpadding">
+          <h2 class="textleyendcatehome">Publicaciones mas recientes</h2>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12 multiple-recents sinpadding">
+              @foreach($productos_ramdon as $pensadosparavos)
+                    <?php
+                      $img_pensados =  $pensadosparavos->postimagenes()->select('imagen', 'storage')->orderBy('id', 'ASC')->take(1)->first();
+                    ?>
+                      <div class="col-md-3 col-sm-12 col-xs-12" style="margin-bottom:1.5rem!important;">
+                        <a class="c-black" href="/vtucuman-{{$pensadosparavos->id}}/{{str_slug($pensadosparavos->name, '-')}}/{{str_slug($pensadosparavos->title)}}">
+                            <div class="col-item col-md-12 col-xs-12 col-sm-12 sinpadding efectoproducto">
+                              <div class="photo">
+                                @if($img_pensados)
+                                  <img data-src-load="{{Voyager::get_image($img_pensados->imagen, 'small',$img_pensados->storage)}}" class="index-img img-responsive height_239px" alt="{{$pensadosparavos->title}}" title="{{$pensadosparavos->title}}" />
+                                @endif
+                              </div>
+                              <div class="info ">
+                                  <div class="row">
+                                      <div class="price col-md-12 col-xs-12 col-sm-12">
+                                        <div class="col-md-12 col-sm-12 col-xs-12 titlehome">
+                                          {{str_limit($pensadosparavos->title, 70)}}
+                                        </div> 
+                                        <div class="col-md-12 col-xs-12 col-sm-12 precio">
+                                          <hr>
+                                          <h5 class="precioSindescuento">@if($pensadosparavos->precios == 1) precio a convenir @else ${{$pensadosparavos->precios}} @endif</h5>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  <div class="clearfix">
+                                  </div>
+                              </div>
+                            </div>
+                        </a>
+                      </div>
+                    <?php $url_ultimos[] = "https://www.ventastucuman.com/vtucuman-".$pensadosparavos->id."/".str_slug($pensadosparavos->name, '-')."/".str_slug($pensadosparavos->title); ?>
+              @endforeach 
+        </div>
+      </div>
+      <!--Stop Recomendaciones destacadas-->
+    </div>
+  </div>
+</section>
+
+<?php $position = 1; ?>
+@section('jsheader')
+@if($url_ultimos)
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ItemList",
+    "itemListElement":[
+      @foreach($url_ultimos as $geturl)
+
+        {
+          "@type":"ListItem",
+          "position":{{$position}},
+          "url":"{{$geturl}}"
+        },
+        <?php $position ++; ?>
+      @endforeach
+      {
+            "@type":"ListItem",
+            "position":11,
+            "url":"https://www.ventastucuman.com/"
+      }
+
+    ]
+  }
+  </script>
+@endif
+@append
+@endsection
+
