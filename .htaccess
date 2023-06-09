@@ -28,7 +28,7 @@ Header set Cache-Control "max-age=2592000, public"
 
 RewriteEngine on
 RewriteCond %{HTTP_HOST} ^saldeello.com$ [NC]
-RewriteRule ^(.*)$ https://www.saldeello.com/$1 [R=301,L]
-RewriteCond %{HTTP_HOST} ^www.saldeello.com$
+RewriteRule ^(.*)$ https://www.host/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^www.host.com$
 RewriteCond %{REQUEST_URI} !public/
 RewriteRule (.*) /public/$1 [L]
