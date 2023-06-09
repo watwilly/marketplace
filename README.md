@@ -1,79 +1,72 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+Marketplace Laravel
+Este es un marketplace desarrollado en Laravel, un framework de PHP popular y potente. El marketplace permite a los usuarios registrarse y acceder a la plataforma utilizando sus cuentas de Google y Facebook. A continuación, se detallan los pasos para configurar y ejecutar el proyecto en tu entorno local.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Requisitos
+Asegúrate de tener los siguientes requisitos antes de comenzar:
 
-## About Laravel
+PHP >= 7.4
+Composer
+MySQL o cualquier otro motor de base de datos compatible
+Cuentas de desarrollador de Google y Facebook para configurar la autenticación
+Pasos de configuración
+Clonar el repositorio
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Clona este repositorio en tu máquina local utilizando el siguiente comando:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+bash
+Copy code
+git clone https://github.com/tu-usuario/marketplace-laravel.git
+Instalar dependencias
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Accede al directorio del proyecto y ejecuta el siguiente comando para instalar las dependencias necesarias:
 
-## Learning Laravel
+Copy code
+composer install
+Configurar archivo .env
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Renombra el archivo .env.example a .env y configura los detalles de tu base de datos:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+makefile
+Copy code
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nombre_base_de_datos
+DB_USERNAME=usuario
+DB_PASSWORD=contraseña
+Además, deberás agregar las credenciales de autenticación de Google y Facebook en el archivo .env:
 
-## Laravel Sponsors
+makefile
+Copy code
+GOOGLE_CLIENT_ID=tu_client_id
+GOOGLE_CLIENT_SECRET=tu_client_secret
+GOOGLE_REDIRECT=http://localhost:8000/login/google/callback
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+FACEBOOK_CLIENT_ID=tu_client_id
+FACEBOOK_CLIENT_SECRET=tu_client_secret
+FACEBOOK_REDIRECT=http://localhost:8000/login/facebook/callback
+Asegúrate de obtener las credenciales adecuadas al configurar las APIs de autenticación en las plataformas de Google y Facebook.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
+Generar clave de la aplicación
 
-## Contributing
+Ejecuta el siguiente comando para generar una clave única de la aplicación:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+vbnet
+Copy code
+php artisan key:generate
+Ejecutar migraciones y seeders
 
-## Code of Conduct
+A continuación, deberás ejecutar las migraciones de la base de datos y los seeders para crear las tablas y los datos iniciales necesarios:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+css
+Copy code
+php artisan migrate --seed
+Iniciar el servidor de desarrollo
 
-## Security Vulnerabilities
+Finalmente, puedes iniciar el servidor de desarrollo de Laravel ejecutando el siguiente comando:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Copy code
+php artisan serve
+El servidor se ejecutará en http://localhost:8000. Puedes acceder a esta URL en tu navegador para ver el marketplace en acción.
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+¡Listo! Ahora tienes el marketplace Laravel funcionando en tu entorno local. Puedes personalizar y expandir el proyecto según tus necesidades específicas.
